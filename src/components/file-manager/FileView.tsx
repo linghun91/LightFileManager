@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { FolderPlus, UploadCloud, ArrowLeft } from 'lucide-react';
-import { findNodeByPath, getNode, ROOT_ID } from '@/lib/file-system-utils';
+import { findNodeByPath, getNode, ROOT_ID, DEFAULT_ROOT_PATH } from '@/lib/file-system-utils';
 
 interface FileViewProps {
   nodes: FileSystemNode[];
@@ -36,10 +36,10 @@ export const FileView: React.FC<FileViewProps> = ({
   };
 
   const parentPath = React.useMemo(() => {
-    if (currentPath === '/') return null;
+    if (currentPath === DEFAULT_ROOT_PATH) return null;
     const segments = currentPath.split('/').filter(Boolean);
-    if (segments.length <= 1) return '/';
-    return '/' + segments.slice(0, -1).join('/');
+    if (segments.length <= 1) return DEFAULT_ROOT_PATH;
+    return DEFAULT_ROOT_PATH + segments.slice(0, -1).join('/');
   }, [currentPath]);
 
   // This relies on the global fileSystem state, which is not ideal for this component.
@@ -70,12 +70,12 @@ export const FileView: React.FC<FileViewProps> = ({
       <header className="p-2 border-b mb-2 sticky top-0 bg-background/80 backdrop-blur-sm z-10">
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-2 min-w-0">
-            {currentPath !== '/' && parentPath !== null && (
+            {currentPath !== DEFAULT_ROOT_PATH && parentPath !== null && (
                <Button variant="ghost" size="icon" onClick={handleNavigateUp} aria-label="Go up a directory">
                  <ArrowLeft size={18} />
                </Button>
             )}
-            <h2 className="text-lg font-semibold truncate" title={currentPath === '/' ? 'My Drive' : currentPath}>
+            <h2 className="text-lg font-semibold truncate" title={currentPath === DEFAULT_ROOT_PATH ? 'My Drive' : currentPath}>
               {currentFolderName}
             </h2>
           </div>
@@ -95,7 +95,7 @@ export const FileView: React.FC<FileViewProps> = ({
           </div>
         </div>
       </header>
-      
+
       {nodes.length === 0 ? (
         <div className="flex-1 flex items-center justify-center text-muted-foreground">
           <p>This folder is empty.</p>

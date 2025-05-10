@@ -1,7 +1,5 @@
-import FileExplorer from '@/components/file-manager/FileExplorer';
 import AppLogo from '@/components/icons/AppLogo';
-import { Toaster } from "@/components/ui/toaster";
-
+import ClientFileExplorer from '@/components/file-manager/ClientFileExplorer';
 
 export default function Home() {
   return (
@@ -11,9 +9,8 @@ export default function Home() {
         <h1 className="text-lg sm:text-xl font-semibold">Light File Manager</h1>
       </header>
       <main className="flex-1 overflow-hidden"> {/* Ensures FileExplorer can manage its own scroll/layout */}
-        <FileExplorer />
+        <ClientFileExplorer />
       </main>
-      <Toaster />
     </div>
   );
 }

@@ -2,6 +2,8 @@ import type { FileSystemNode, FileSystemData } from '@/types';
 
 export const ROOT_ID = 'root';
 
+export const DEFAULT_ROOT_PATH = '/home/linghun/';
+
 export function createInitialFileSystemData(): FileSystemData {
   const now = new Date().toISOString();
   return {
@@ -9,7 +11,7 @@ export function createInitialFileSystemData(): FileSystemData {
       id: ROOT_ID,
       name: 'My Drive',
       type: 'directory',
-      path: '/',
+      path: DEFAULT_ROOT_PATH,
       parentId: null,
       childrenIds: ['docs', 'pics', 'readme'],
       lastModified: now,
@@ -18,7 +20,7 @@ export function createInitialFileSystemData(): FileSystemData {
       id: 'docs',
       name: 'Documents',
       type: 'directory',
-      path: '/Documents',
+      path: `${DEFAULT_ROOT_PATH}Documents`,
       parentId: ROOT_ID,
       childrenIds: ['report_txt', 'projects_folder'],
       lastModified: now,
@@ -27,7 +29,7 @@ export function createInitialFileSystemData(): FileSystemData {
       id: 'report_txt',
       name: 'Report.txt',
       type: 'file',
-      path: '/Documents/Report.txt',
+      path: `${DEFAULT_ROOT_PATH}Documents/Report.txt`,
       parentId: 'docs',
       content: 'This is a confidential report.',
       lastModified: now,
@@ -37,7 +39,7 @@ export function createInitialFileSystemData(): FileSystemData {
       id: 'projects_folder',
       name: 'Projects',
       type: 'directory',
-      path: '/Documents/Projects',
+      path: `${DEFAULT_ROOT_PATH}Documents/Projects`,
       parentId: 'docs',
       childrenIds: ['project_alpha_js'],
       lastModified: now,
@@ -46,7 +48,7 @@ export function createInitialFileSystemData(): FileSystemData {
       id: 'project_alpha_js',
       name: 'project_alpha.js',
       type: 'file',
-      path: '/Documents/Projects/project_alpha.js',
+      path: `${DEFAULT_ROOT_PATH}Documents/Projects/project_alpha.js`,
       parentId: 'projects_folder',
       content: 'console.log("Hello from Project Alpha!");',
       lastModified: now,
@@ -56,7 +58,7 @@ export function createInitialFileSystemData(): FileSystemData {
       id: 'pics',
       name: 'Pictures',
       type: 'directory',
-      path: '/Pictures',
+      path: `${DEFAULT_ROOT_PATH}Pictures`,
       parentId: ROOT_ID,
       childrenIds: ['vacation_jpg'],
       lastModified: now,
@@ -65,7 +67,7 @@ export function createInitialFileSystemData(): FileSystemData {
       id: 'vacation_jpg',
       name: 'vacation.jpg',
       type: 'file',
-      path: '/Pictures/vacation.jpg',
+      path: `${DEFAULT_ROOT_PATH}Pictures/vacation.jpg`,
       parentId: 'pics',
       lastModified: now,
       size: 204800, // 200KB
@@ -74,7 +76,7 @@ export function createInitialFileSystemData(): FileSystemData {
       id: 'readme',
       name: 'README.md',
       type: 'file',
-      path: '/README.md',
+      path: `${DEFAULT_ROOT_PATH}README.md`,
       parentId: ROOT_ID,
       content: '# Light File Manager\n\nThis is a simple file manager.',
       lastModified: now,
@@ -96,8 +98,8 @@ export function getChildren(data: FileSystemData, parentId: string): FileSystemN
 }
 
 export function findNodeByPath(data: FileSystemData, path: string): FileSystemNode | undefined {
-  if (path === '/') return getNode(data, ROOT_ID);
-  
+  if (path === DEFAULT_ROOT_PATH || path === '/') return getNode(data, ROOT_ID);
+
   // This is a simplified version. A real implementation would need to traverse.
   // For this mock, we can iterate through all nodes.
   for (const id in data) {

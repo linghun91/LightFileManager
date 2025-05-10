@@ -4,7 +4,7 @@ import type { MouseEvent } from 'react';
 import React, { useState }
 from 'react';
 import type { FileSystemNode, FileSystemData } from '@/types';
-import { getNode, getChildren, ROOT_ID } from '@/lib/file-system-utils';
+import { getNode, getChildren, ROOT_ID, DEFAULT_ROOT_PATH } from '@/lib/file-system-utils';
 import { Folder, FileText, ChevronRight, ChevronDown, Home } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -99,12 +99,12 @@ export const DirectoryTree: React.FC<DirectoryTreeProps> = ({ fileSystem, curren
       <ul className="space-y-1">
          <li>
           <Button
-            variant={currentPath === '/' ? "secondary" : "ghost"}
+            variant={currentPath === DEFAULT_ROOT_PATH ? "secondary" : "ghost"}
             className={cn(
               "w-full justify-start text-sm h-auto p-1.5",
-              currentPath === '/' && "font-semibold"
+              currentPath === DEFAULT_ROOT_PATH && "font-semibold"
             )}
-            onClick={() => onSelectPath('/')}
+            onClick={() => onSelectPath(DEFAULT_ROOT_PATH)}
           >
             <Home size={16} className="mr-2 text-primary" />
             {rootNode.name}
